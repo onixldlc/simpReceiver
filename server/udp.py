@@ -1,14 +1,15 @@
 import socket
-from utility import hexdump
 from threading import Thread
-from modes.buffer import Buffer
-from modes.trackpad import Trackpad
-from modes.trackpadTest import TrackpadTest
+from server.utility import hexdump
+from server.modes.buffer import Buffer
+from server.modes.trackpad import Trackpad
+from server.modes.trackpadTest import TrackpadTest
 
 
 class UDPHandler:
     buffHandler = Buffer
     isModeSelected = False
+    isDebug = True
 
 
     def __init__(self, ip="127.0.0.1", port=8008) -> None:
@@ -63,13 +64,13 @@ class UDPHandler:
             print(error.args)
             return
 
-        
-        print(f"[+] {addr[0]}:{addr[1]} => server")
-        print("data raw:")
-        print("==================================================================")
-        print("\n".join([line for line in hexdump(data).split("\n") if line != ""]))
-        # print("\n".join(list(map(lambda lines: f"={lines}=", [line for line in hexdump(data).split("\n") if line != ""]))))
-        print("==================================================================")
-        print(f"{unpackedData}")
-        print("==================================================================")
-        print("")
+        if(self.isDebug):
+            print(f"[+] {addr[0]}:{addr[1]} => server")
+            print("data raw:")
+            print("==================================================================")
+            print("\n".join([line for line in hexdump(data).split("\n") if line != ""]))
+            # print("\n".join(list(map(lambda lines: f"={lines}=", [line for line in hexdump(data).split("\n") if line != ""]))))
+            print("==================================================================")
+            print(f"{unpackedData}")
+            print("==================================================================")
+            print("")

@@ -6,7 +6,7 @@
 #       |--char--|--flot--|--flot--|--char--|--char--|
 
 
-from modes.trackpad import Trackpad
+from server.modes.trackpad import Trackpad
 
 class TrackpadTest(Trackpad):
     def unpackData(self):

@@ -1,4 +1,4 @@
-from udp import UDPHandler
+from server.udp import UDPHandler
 
 # temp = print
 # def tem(*objs, **kwargs):

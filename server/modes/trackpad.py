@@ -6,7 +6,7 @@
 #       |--char--|--flot--|--flot--|--char--|--char--|
 
 
-from modes.buffer import Buffer
+from server.modes.buffer import Buffer
 
 class Trackpad(Buffer):
     def unpackData(self):
