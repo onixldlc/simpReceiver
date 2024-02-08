@@ -1,6 +1,7 @@
 import socket
 from threading import Thread
 from server.utility import hexdump
+from server.control import ctrlHandle
 from server.modes.buffer import Buffer
 from server.modes.trackpad import Trackpad
 from server.modes.trackpadTest import TrackpadTest
@@ -9,7 +10,9 @@ from server.modes.trackpadTest import TrackpadTest
 class UDPHandler:
     buffHandler = Buffer
     isModeSelected = False
-    isDebug = True
+    isDebug = False
+    controlHandler = ctrlHandle()
+    sensitivity = 0.5
 
 
     def __init__(self, ip="127.0.0.1", port=8008) -> None:
@@ -19,6 +22,7 @@ class UDPHandler:
 
     def listen(self, callback=None):
         thread1 = Thread(target=self._receiver, args=[callback])
+        self.controlHandler.setFailSafe(False)
         thread1.run()
 
     def _receiver(self, callback=None):
@@ -36,7 +40,7 @@ class UDPHandler:
             except socket.timeout:
                 pass
         
-    def _callback(self, data, addr):        
+    def _callback(self, data, addr):
         dataBuff = self.buffHandler(data)
         mode = dataBuff.unpackMode()
         #  breakpoint()
@@ -74,3 +78,9 @@ class UDPHandler:
             print(f"{unpackedData}")
             print("==================================================================")
             print("")
+        
+        if(mode == 2):
+            newX = unpackedData["velX"]*self.sensitivity
+            newY = unpackedData["velY"]*self.sensitivity
+            self.controlHandler.relativeMoveCustom(newX,newY)
+

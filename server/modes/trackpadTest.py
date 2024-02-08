@@ -7,6 +7,7 @@
 
 
 from server.modes.trackpad import Trackpad
+from server.modes.data import MouseData
 
 class TrackpadTest(Trackpad):
     def unpackData(self):

@@ -7,11 +7,12 @@
 
 
 from server.modes.buffer import Buffer
+from server.modes.data import MouseData
 
 class Trackpad(Buffer):
     def unpackData(self):
         velX, velY, m1, m2 = self.unpack("ffBB")
-        return {
+        return{
             "velX":velX,
             "velY":velY,
             "m1":m1,
