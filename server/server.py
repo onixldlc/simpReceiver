@@ -11,8 +11,7 @@ import struct
 
 def moveMouse(data, addr):
     mode, velX, velY, m1, m2 =  struct.unpack(">BffBB", data)
-    if abs(velX) > 5 and abs(velY) > 5 :
-        pyautogui.move(-velX, -velY)
+    pyautogui.move(velX, velY, _pause = False)
 
 
 def main():

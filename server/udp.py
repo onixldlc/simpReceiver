@@ -8,11 +8,15 @@ from server.modes.trackpadTest import TrackpadTest
 
 
 class UDPHandler:
+    enableMouse = True
+    enableDebug = True
+
     buffHandler = Buffer
     isModeSelected = False
-    isDebug = False
     controlHandler = ctrlHandle()
     sensitivity = 0.5
+    isMouseDown = False
+
 
 
     def __init__(self, ip="127.0.0.1", port=8008) -> None:
@@ -68,7 +72,7 @@ class UDPHandler:
             print(error.args)
             return
 
-        if(self.isDebug):
+        if(self.enableDebug):
             print(f"[+] {addr[0]}:{addr[1]} => server")
             print("data raw:")
             print("==================================================================")
@@ -82,5 +86,15 @@ class UDPHandler:
         if(mode == 2):
             newX = unpackedData["velX"]*self.sensitivity
             newY = unpackedData["velY"]*self.sensitivity
-            self.controlHandler.relativeMoveCustom(newX,newY)
+
+            if(abs(newX) > 0.002 and abs(newY) > 0.002 ):
+                self.controlHandler.relativeMoveCustom(newX,newY)
+
+            if(self.enableMouse):
+                if(not self.isMouseDown and unpackedData["m1"] == 1):
+                    self.isMouseDown = True
+                    self.controlHandler.m1Down()
+                elif(self.isMouseDown and unpackedData["m1"] == 0):
+                    self.isMouseDown = False
+                    self.controlHandler.m1Up()
 

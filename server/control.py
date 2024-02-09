@@ -14,10 +14,10 @@ class ctrlHandle:
         pyautogui.move(relativeX, relativeY)
 
     def m1Down(self):
-        self.m1Click = True
+        pyautogui.mouseDown(_pause=False)
 
     def m1Up(self):
-        self.m1Click = False
+        pyautogui.mouseUp(_pause=False)
 
     def setFailSafe(self, value):
         pyautogui.FAILSAFE = value
