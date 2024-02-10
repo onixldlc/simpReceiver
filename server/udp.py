@@ -98,3 +98,6 @@ class UDPHandler:
                     self.isMouseDown = False
                     self.controlHandler.m1Up()
 
+                if(unpackedData["m2"]):
+                    self.controlHandler.m2Click()
+

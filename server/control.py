@@ -19,6 +19,9 @@ class ctrlHandle:
     def m1Up(self):
         pyautogui.mouseUp(_pause=False)
 
+    def m2Click(self):
+        pyautogui.rightClick(_pause=False)
+
     def setFailSafe(self, value):
         pyautogui.FAILSAFE = value
         
